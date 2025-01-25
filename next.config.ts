@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
+import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  trailingSlash: true,  // Ensures paths have a trailing slash
 };
 
 export default nextConfig;
