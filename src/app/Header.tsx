@@ -10,7 +10,7 @@ const Header = () => {
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link href="./" legacyBehavior>
+              <Link href="/" legacyBehavior>
                 <span className="hover:text-gray-300">Home</span>
               </Link>
             </li>
