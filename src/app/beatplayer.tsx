@@ -1,4 +1,3 @@
-// src/app/BeatPlayer.tsx
 "use client";
 import React from "react";
 
@@ -16,7 +15,7 @@ const BeatCard = ({
   price: number;
 }) => {
   return (
-    <div className="bg-green-500/50 p-4 rounded-lg flex flex-col items-center">
+    <div className="bg-green-500/50 p-4 rounded-lg flex flex-col items-center w-[200px] min-h-[280px]">
       <div className="flex justify-center items-center mb-4">
         <img src={thumbnail} alt={title} className="w-full h-36 object-cover rounded-lg" />
       </div>
@@ -33,18 +32,18 @@ const BeatCard = ({
 };
 
 const BeatPlayer = () => {
-  // Placeholder values
-  const beats = Array.from({ length: 10 }, (_, i) => ({
+  // Placeholder values (now with more beats)
+  const beats = Array.from({ length: 20 }, (_, i) => ({
     thumbnail: `https://example.com/thumbnail${i + 1}.jpg`,
     title: `Beat ${i + 1}`,
-    bpm: "120", // Default BPM
-    beatKey: "C", // Default Key
-    price: 25.0, // Default Price
+    bpm: "120",
+    beatKey: "C",
+    price: 25.0,
   }));
 
   return (
-    <div className="flex flex-col items-center justify-center w-full p-4">
-      <div className="grid grid-cols-5 gap-4 p-4 bg-orange-500 w-[60%]">
+    <div className="flex justify-center items-center w-full p-4">
+      <div className="grid grid-cols-5 gap-x-8 gap-y-4 p-4 bg-orange-500 max-w-[1200px]">
         {beats.map((beat, index) => (
           <BeatCard
             key={index}
