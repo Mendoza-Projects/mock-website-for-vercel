@@ -42,6 +42,9 @@ export default function AuthPage() {
       } else {
         setError(err.message); // General error message
       }
+      {
+        console.error(signInError)
+      }
       console.error(err);
     }
   };
