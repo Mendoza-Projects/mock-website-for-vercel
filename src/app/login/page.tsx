@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/app/firebase/config";
-import { useSignInWithEmailAndPassword, useCreateUserWithEmailAndPassword} from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword, useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { FirebaseError } from "firebase/app"; // Import FirebaseError for better typing
 
 export default function AuthPage() {
   const [email, setEmail] = useState("");
@@ -33,17 +34,19 @@ export default function AuthPage() {
           router.push("/");
         }
       }
-    } catch (err: any) {
-      // Check for errors and handle them
-      if (err.message.includes("auth/user-not-found")) {
-        setError("No account found with this email.");
-      } else if (err.message.includes("auth/wrong-password")) {
-        setError("Incorrect password. Please try again.");
+    } catch (err) {
+      if (err instanceof FirebaseError) {
+        // Check for specific Firebase errors and handle them
+        if (err.code === "auth/user-not-found") {
+          setError("No account found with this email.");
+        } else if (err.code === "auth/wrong-password") {
+          setError("Incorrect password. Please try again.");
+        } else {
+          setError(err.message); // General error message
+        }
       } else {
-        setError(err.message); // General error message
-      }
-      {
-        console.error(signInError)
+        // General fallback for other types of errors
+        setError("An unexpected error occurred.");
       }
       console.error(err);
     }
