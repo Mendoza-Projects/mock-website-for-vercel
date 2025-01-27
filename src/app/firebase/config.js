@@ -20,4 +20,4 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 
 // Export Firebase app and auth
-export { app, auth };
+export { app, auth, analytics };
