@@ -14,7 +14,7 @@ export default function AuthPage() {
   const router = useRouter();
 
   const [createUserWithEmailAndPassword] = useCreateUserWithEmailAndPassword(auth);
-  const [signInWithEmailAndPassword, , signInError] = useSignInWithEmailAndPassword(auth);
+  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,9 +60,6 @@ export default function AuthPage() {
         </h2>
 
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-
-        {/* Display the sign-in error if it exists */}
-        {signInError && <p className="text-red-500 text-sm mt-2">{signInError.message}</p>}
 
         <form className="mt-6" onSubmit={handleAuth}>
           <div className="mb-4">
