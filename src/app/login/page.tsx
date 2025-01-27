@@ -61,6 +61,9 @@ export default function AuthPage() {
 
         {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
+        {/* Display the sign-in error if it exists */}
+        {signInError && <p className="text-red-500 text-sm mt-2">{signInError.message}</p>}
+
         <form className="mt-6" onSubmit={handleAuth}>
           <div className="mb-4">
             <label className="block text-sm font-medium">Email</label>
