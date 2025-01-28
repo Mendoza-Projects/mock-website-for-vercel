@@ -1,27 +1,28 @@
-// src/app/beats/page.tsx
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Header from "@/app/Header";
 import Footer from "@/app/Footer";
 import BeatPlayer from "../beatplayer";
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '@/app/firebase/config'; // Import the Firebase config
 
-const BeatsPage = () => {
-  const [isClient, setIsClient] = useState(false);
-
+export default function BeatsPage() {
   useEffect(() => {
-    setIsClient(true);  // This will run once on the client after the component mounts
-  }, []);
+    if (typeof window !== 'undefined') {
+      // Initialize Firebase only on the client-side
+      initializeApp(firebaseConfig);
+      // Firebase is now initialized and ready for further use
+    }
+  }, []); // Empty dependency array to ensure this runs only once on mount
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       <div className="flex-1 bg-black text-white text-center py-20">
-        {isClient ? <BeatPlayer /> : null}
+        <BeatPlayer />
       </div>
       <Footer />
     </div>
   );
-};
-
-export default BeatsPage;
+}
