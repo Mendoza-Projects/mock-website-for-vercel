@@ -19,4 +19,4 @@ const BeatsPage = () => {
   );
 };
 
-export default BeatsPage;
+
