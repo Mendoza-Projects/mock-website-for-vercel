@@ -1,4 +1,5 @@
 // src/app/Header.tsx
+'use client'
 import React from 'react';
 import Link from 'next/link';
 import { auth } from '@/app/firebase/config'; // Ensure you're importing your Firebase auth config

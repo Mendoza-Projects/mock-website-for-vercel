@@ -5,6 +5,8 @@ import Header from "@/app/Header";
 import Footer from "@/app/Footer";
 import BeatPlayer from "../beatplayer";
 
+
+
 const BeatsPage = () => {
   return (
     <div className="min-h-screen flex flex-col">
