@@ -43,6 +43,11 @@ const Page = () => {
     return <div>Loading...</div>;
   }
 
+  if (!isClient) {
+    // Prevent rendering the component until the client-side is confirmed
+    return null;
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
