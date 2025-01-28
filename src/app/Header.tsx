@@ -1,4 +1,3 @@
-// src/app/Header.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -6,6 +5,8 @@ import Link from 'next/link';
 import { auth } from '@/app/firebase/config';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
+import { initializeApp } from 'firebase/app';
+import { firebaseConfig } from '@/app/firebase/config'; // Import the Firebase config
 
 const Header = () => {
   const router = useRouter();
@@ -14,6 +15,11 @@ const Header = () => {
   useEffect(() => {
     // This effect runs only on the client side
     setIsClient(true);
+
+    // Initialize Firebase only on the client-side
+    if (typeof window !== 'undefined') {
+      initializeApp(firebaseConfig); // Initialize Firebase
+    }
   }, []);
 
   const handleSignOut = async () => {
