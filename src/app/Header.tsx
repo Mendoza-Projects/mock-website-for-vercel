@@ -1,18 +1,28 @@
-// src/app/Header.tsx
-'use client'
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { auth } from '@/app/firebase/config'; // Ensure you're importing your Firebase auth config
-import { signOut } from 'firebase/auth'; // Import Firebase's signOut method
-import { useRouter } from 'next/navigation'; // Import useRouter to navigate after sign out
+import { useRouter } from 'next/navigation';
+import { auth } from '@/app/firebase/config'; // Import Firebase auth instance
+import { onAuthStateChanged, signOut } from 'firebase/auth'; // Import needed functions
 
 const Header = () => {
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    // Listen for auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe(); // Cleanup listener on unmount
+  }, []);
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth); // Sign out user
-      router.push('/'); // Redirect to home after sign out
+      await signOut(auth);
+      router.push('/');
     } catch (error) {
       console.error('Error signing out: ', error);
     }
@@ -34,7 +44,6 @@ const Header = () => {
                 <span className="hover:text-gray-300">Beats</span>
               </Link>
             </li>
-            {/* Login Page Link */}
             <li>
               <Link href="/login" legacyBehavior>
                 <span className="hover:text-gray-300">Login</span>
@@ -43,15 +52,16 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      {/* Sign Out Button */}
-      <div className="mt-2">
-        <button
-          onClick={handleSignOut}
-          className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
-        >
-          Sign Out
-        </button>
-      </div>
+      {user && (
+        <div className="mt-2">
+          <button
+            onClick={handleSignOut}
+            className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
+          >
+            Sign Out
+          </button>
+        </div>
+      )}
     </header>
   );
 };
