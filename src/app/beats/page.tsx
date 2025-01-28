@@ -1,5 +1,5 @@
 // src/app/beats/page.tsx
-'use client'
+'use client';
 
 import Header from "@/app/Header";
 import Footer from "@/app/Footer";
