@@ -1,32 +1,32 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { auth } from '@/app/firebase/config';
+import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
-import { auth } from '@/app/firebase/config'; // Import Firebase auth instance
-import { onAuthStateChanged, signOut } from 'firebase/auth'; // Import needed functions
 
 const Header = () => {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [isClient, setIsClient] = useState(false); // Check if we're on the client-side
 
   useEffect(() => {
-    // Listen for auth state changes
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe(); // Cleanup listener on unmount
+    // This effect runs only on the client side
+    setIsClient(true);
   }, []);
 
   const handleSignOut = async () => {
     try {
-      await signOut(auth);
-      router.push('/');
+      await signOut(auth); // Sign out user
+      router.push('/'); // Redirect to home after sign out
     } catch (error) {
       console.error('Error signing out: ', error);
     }
   };
+
+  if (!isClient) {
+    return null; // Render nothing if it's not on the client-side (SSR phase)
+  }
 
   return (
     <header className="bg-blue-500 text-white p-4">
@@ -52,16 +52,15 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      {user && (
-        <div className="mt-2">
-          <button
-            onClick={handleSignOut}
-            className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
-          >
-            Sign Out
-          </button>
-        </div>
-      )}
+      {/* Sign Out Button */}
+      <div className="mt-2">
+        <button
+          onClick={handleSignOut}
+          className="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded"
+        >
+          Sign Out
+        </button>
+      </div>
     </header>
   );
 };
