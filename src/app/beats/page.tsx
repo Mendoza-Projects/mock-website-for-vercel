@@ -15,7 +15,10 @@ export default function BeatsPage() {
     if (typeof window !== 'undefined') {
       // Initialize Firebase only on the client-side
       initializeApp(firebaseConfig);
-      // Firebase is now initialized and ready for further use
+
+      // Example of using sessionStorage after the page has loaded on the client-side
+      window.sessionStorage.setItem('key', 'value');
+      // Firebase is now initialized and sessionStorage can be used
     }
   }, []); // Empty dependency array to ensure this runs only once on mount
 
