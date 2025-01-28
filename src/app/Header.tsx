@@ -7,6 +7,7 @@ import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '@/app/firebase/config'; // Import the Firebase config
+import { getAnalytics, isSupported } from 'firebase/analytics'; // Import Analytics
 
 const Header = () => {
   const router = useRouter();
@@ -16,10 +17,19 @@ const Header = () => {
     // This effect runs only on the client side
     setIsClient(true);
 
-    // Initialize Firebase only on the client-side
-    if (typeof window !== 'undefined') {
-      initializeApp(firebaseConfig); // Initialize Firebase
-    }
+    const initializeAnalytics = async () => {
+      if (typeof window !== 'undefined') {
+        const supported = await isSupported(); // Wait for isSupported to resolve
+
+        if (supported) {
+          const firebaseApp = initializeApp(firebaseConfig); // Initialize Firebase app
+          getAnalytics(firebaseApp); // Initialize Analytics
+        }
+      }
+    };
+
+    initializeAnalytics(); // Call the async function inside useEffect
+
   }, []);
 
   const handleSignOut = async () => {
